@@ -3,6 +3,7 @@
 use App\Models\Post;
 use Illuminate\Support\Facades\Route;
 
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -15,9 +16,21 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('posts', [
+    return view('posts', array(
         'posts' => Post::all()
-    ]);
+    ));
+    //use array map for efficiency
+//    $posts = array_map(function ($file) {
+//        $document = YamlFrontMatter::parseFile($file);
+//        return new Post(
+//            $document->title,
+//            $document->excerpt,
+//            $document->date,
+//            $document->body(),
+//            $document->slug
+//        );
+//    }, $files);
+
 });
 
 Route::get('post/{post}', function ($slug) {

@@ -3,15 +3,20 @@
 <title>My blog</title>
 <link rel="stylesheet" href="/app.css">
 <body>
-<?php foreach ($posts as $post)  :  ?>
-<article>
-    <a>
-        <h1>
-            <a href="/post/<?= $post->slug; ?>"><?= $post->title; ?></h1></a>
-    <div>
-        <?= $post->excerpt?>
-    </div>
-</article>
-<?php endforeach; ?>
+@foreach ($posts as $post)
+    {{--    getting the nth child in a loop--}}
+    {{--    @dd($loop)--}}
+    <article>
+        <a>
+            <h1>
+                <a href="/post/{{$post->slug}}">
+                    {{$post->title}}
+                </a>
+            </h1>
+            <div>
+                {{$post->excerpt }}
+            </div>
+    </article>
+@endforeach
 </body>
 </html>

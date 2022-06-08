@@ -4,9 +4,10 @@
 <link rel="stylesheet" href="/app.css">
 <body>
 <article>
-    <h1><?= $post->title; ?></h1>
+    {{--    //escape the html --}}
+    <h1>{!! $post->title !!}</h1>
     <div>
-        <?= $post->body; ?>
+        {!! $post->body  !!}
     </div>
 </article>
 <a href="/">go back</a>

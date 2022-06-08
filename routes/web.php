@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Post;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -14,18 +15,15 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('posts');
+    return view('posts', [
+        'posts' => Post::all()
+    ]);
 });
 
 Route::get('post/{post}', function ($slug) {
-    $path = __DIR__ . "/../resources/posts/{$slug}.html";
-    if (!file_exists($path)) {
-        return redirect('/');
-    }
-    cache()->remember("posts.{$slug}", 5, function () use ($path) {
-        return file_get_contents($path);
-    });
+    // Find a post by its slug and pass it to a view called "Post"
     return view('post', [
-        'post' => $post
+        'post' => Post::find($slug)
     ]);
+
 })->where('post', '[A-z_\-]+');

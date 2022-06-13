@@ -18,7 +18,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('posts', array(
-        'posts' => Post::with('category')->get()
+        'posts' => Post::latest()->with('category')->get()
     ));
     //use array map for efficiency
 //    $posts = array_map(function ($file) {

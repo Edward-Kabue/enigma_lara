@@ -2,51 +2,25 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\ModelNotFoundException;
-use Illuminate\Support\Facades\File;
-use Spatie\YamlFrontMatter\YamlFrontMatter;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class Post
+class post extends Model
 {
-    public $title;
-    public $excerpt;
-    public $date;
-    public $body;
-    public $slug;
-
-    /**
-     * @param $title
-     * @param $excerpt
-     * @param $date
-     * @param $body
-     */
-    public function __construct($title, $excerpt, $date, $body, $slug)
+    use HasFactory;
+    //allows a field to be mass assigned
+    //using guarded to prevent mass assignment
+    protected  $guarded = [''];
+    protected $with = ['category','author'];
+//    protected $fillable=['title'];
+    public function  category(): BelongsTo
     {
-        $this->title = $title;
-        $this->excerpt = $excerpt;
-        $this->date = $date;
-        $this->body = $body;
-        $this->slug = $slug;
+        return $this->belongsTo(Category::class);
     }
 
-    public static function all()
+    public function author(): BelongsTo
     {
-        //using laravel collections
-        //files variable used once using refactored to inline
-        return collect(File::files(resource_path("posts")))
-            ->map(fn($file) => YamlFrontMatter::parseFile($file))
-            ->map(fn($document) => new Post(
-                $document->title,
-                $document->excerpt,
-                $document->date,
-                $document->body(),
-                $document->slug
-            ));
-    }
-
-    public static function find($slug)
-    {
-        //find the blog post with the slug that was requested
-        return static::all()->firstWhere('slug', $slug);
+        return $this->belongsTo(user::class, 'user_id');
     }
 }

@@ -12,13 +12,14 @@ class post extends Model
     //allows a field to be mass assigned
     //using guarded to prevent mass assignment
     protected  $guarded = [''];
+    protected $with = ['category','author'];
 //    protected $fillable=['title'];
     public function  category(): BelongsTo
     {
         return $this->belongsTo(Category::class);
     }
 
-    public function author()
+    public function author(): BelongsTo
     {
         return $this->belongsTo(user::class, 'user_id');
     }

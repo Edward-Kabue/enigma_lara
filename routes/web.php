@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Category;
 use App\Models\Post;
 use Illuminate\Support\Facades\Route;
 
@@ -17,7 +18,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('posts', array(
-        'posts' => Post::all()
+        'posts' => Post::latest()->with('category')->get()
     ));
     //use array map for efficiency
 //    $posts = array_map(function ($file) {
@@ -33,9 +34,15 @@ Route::get('/', function () {
 
 });
 
-Route::get('post/{post}', function ($id) {
+Route::get('post/{post:slug}', function (Post  $post) {
     // Find a post by its slug and pass it to a view called "Post"
     return view('post', [
-        'post' => Post::findOrFail($id)
+        'post' => $post
     ]);
+});
+
+Route::get ('categories/{category:slug}',function (Category $category) {
+    return view( 'posts',[
+        'posts' => $category->posts
+        ]);
 });

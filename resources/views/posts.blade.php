@@ -6,10 +6,13 @@
         <article>
             <a>
                 <h1>
-                    <a href="/post/{{$post->id}}">
-                        {{$post->title}}
+                    <a href="/post/{{$post->slug}}">
+                        {!! $post->title !!}
                     </a>
                 </h1>
+                <p>
+                    By <a href="#">{{$post->user->name}}</a> in <a href="/categories/{{$post->category->slug}}">{{$post->category->name}}</a>
+                </p>
                 <div>
                     {{$post->excerpt }}
                 </div>
